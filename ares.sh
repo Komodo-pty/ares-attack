@@ -3,7 +3,7 @@
 path=$(readlink $(which ares) | awk -F 'ares.sh' '{print $1}')
 while true;
 do
-	echo -e "\nSelect an operation:\n[0] Exit\n[1] XSS\n[2] MSSQL Brute Force\n"
+	echo -e "\nSelect an operation:\n[0] Exit\n[1] Active Directory Roasting\n[2] XSS\n[3] MSSQL Brute Force\n"
 	read mode
 
 	if [ $mode == 0 ]
@@ -12,11 +12,11 @@ do
 
 	elif [ $mode == 1 ]
 	then
-		source $path/
+		source $path/ad_roasting.sh
 
 	elif [ $mode == 2 ]
 	then
-		source $path/
+		python3 $path/xss_cookie_thief.py
 
 	elif [ $mode == 3 ]
 	then
