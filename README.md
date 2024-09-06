@@ -13,7 +13,7 @@ Each of these scripts can be run independently, or they can be launched from the
 For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
 
 ### Modules
-So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, & Bruteforcing MSSQL in an AD environment (Since tools like `hydra` currently throw false negatives)
+So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, & Bruteforcing MSSQL in an AD environment (Since tools like `hydra` currently throw false negatives).
 
 In subsequent versions, each of these will be expanded upon, and more modules will be added.
 
@@ -30,6 +30,8 @@ For example, run the following in this Repo's directory:
 GetNPUsers.py
 
 GetUserSPNs.py
+
+mssqlclient.py
 
 #### Note
 Ensure all aforementioned dependencies are in your PATH and are named appropriately.
