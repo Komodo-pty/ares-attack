@@ -20,10 +20,10 @@ do
 
 	elif [ $mode == 3 ]
 	then
-		break
+		source $path/mssql_Brute.sh
 
 	else
-		echo -e "\nYou did not select a valid option\n"
+		echo -e "\nYou did not select a valid option.\n"
 	fi
 
 done
