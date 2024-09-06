@@ -36,7 +36,7 @@ then
 		login=$dom
 		login+=$i
 		echo -e "$line[*] Credentials: $login\n"
-		impacket-mssqlclient -windows-auth -no-pass -port $port $login@$host
+		mssqlclient.py -windows-auth -no-pass -port $port $login@$host
 	done
 
 elif [ $opt == 2 ]
@@ -60,7 +60,7 @@ then
 			pass+="'"
 
 			echo -e "$line[*] Credentials: $user:$pass\n"
-			impacket-mssqlclient -windows-auth -no-pass -port $port $user:$pass@$host
+			mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
 		done
 	done
 
@@ -83,7 +83,7 @@ then
 		user+="'"
 
 		echo -e "$line[*] Credentials: $user:$pass\n"
-		impacket-mssqlclient -windows-auth -no-pass -port $port $user:$pass@$host
+		mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
 	done
 
 elif [ $opt == 4 ]
@@ -105,7 +105,7 @@ then
 		pass+="'"
 
 		echo -e "$line[*] Credentials: $user:$pass\n"
-		impacket-mssqlclient -windows-auth -no-pass -port $port $user:$pass@$host
+		mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
 	done
 else
 	echo -e "\nYou did not select a valid option. Enter a number 1-4\n"
