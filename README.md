@@ -37,3 +37,10 @@ mssqlclient.py
 Ensure all aforementioned dependencies are in your PATH and are named appropriately.
 
 Depending on how they are installed, Impacket's tools may have another name (e.g. impacket-GetNPUsers).
+
+# Related Projects
+Check out the rest of the Pentesting Pantheon:
+
+Perform recon to see everything your target is hiding with Argus (https://github.com/Komodo-pty/argus-recon/)
+
+Hunt for shells with Artemis (https://github.com/Komodo-pty/artemis-hunter)
