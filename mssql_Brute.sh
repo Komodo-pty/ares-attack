@@ -34,9 +34,9 @@ then
 	for i in $(cat $list)
 	do
 		login=$dom
-		login+=$i
-		echo -e "$line[*] Credentials: $login\n"
-		mssqlclient.py -windows-auth -no-pass -port $port $login@$host
+		login+="$i"
+		echo -e "$line\n[*] Credentials: $login\n"
+		mssqlclient.py -windows-auth -no-pass -port $port "$login"@$host
 	done
 
 elif [ $opt == 2 ]
@@ -49,18 +49,13 @@ then
 	for u in $(cat $user_list)
 	do
 		user=$dom
-		user+="'"
-		user+=$u
-		user+="'"
+		user+="$u"
 
 		for p in $(cat $pass_list)
 		do
-			pass="'"
-			pass+=$p
-			pass+="'"
 
-			echo -e "$line[*] Credentials: $user:$pass\n"
-			mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
+			echo -e "$line\n[*] Credentials: $user:$p\n"
+			mssqlclient.py -windows-auth -no-pass -port $port "$user":"$p"@$host
 		done
 	done
 
@@ -71,19 +66,13 @@ then
 	echo -e "\nEnter the path to the Username wordlist:\n"
 	read user_list
 
-	pass="'"
-	pass+=$passwd
-	pass+="'"
-
 	for u in $(cat $user_list)
 	do
 		user=$dom
-		user+="'"
-		user+=$u
-		user+="'"
+		user+="$u"
 
-		echo -e "$line[*] Credentials: $user:$pass\n"
-		mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
+		echo -e "$line\n[*] Credentials: $user:$passwd\n"
+		mssqlclient.py -windows-auth -no-pass -port $port "$user":"$passwd"@$host
 	done
 
 elif [ $opt == 4 ]
@@ -94,18 +83,13 @@ then
 	read pass_list
 
 	user=$dom
-	user+="'"
-	user+=$username
-	user+="'"
+	user+="$username"
 
 	for p in $(cat $pass_list)
 	do
-		pass="'"
-		pass+=$p
-		pass+="'"
 
-		echo -e "$line[*] Credentials: $user:$pass\n"
-		mssqlclient.py -windows-auth -no-pass -port $port $user:$pass@$host
+		echo -e "$line[*] Credentials: $user:$p\n"
+		mssqlclient.py -windows-auth -no-pass -port $port "$user":"$p"@$host
 	done
 else
 	echo -e "\nYou did not select a valid option. Enter a number 1-4\n"

@@ -31,27 +31,24 @@ then
 	then
 		echo -e "\nEnter the username:\n"
 		read user
-		username+="$user"; username+="'"
 		echo -e "\nEnter the password\n"
-		read auth
-		passwd+="$auth"; passwd+="'"
+		read passwd
 		echo -e "$line"
 
 		set -x
-		GetNPUsers.py -request -format john -dc-ip $dc $dom/$username:$passwd 
+		GetNPUsers.py -request -format john -dc-ip $dc $dom/"$user":"$passwd"
 		set +x
 
 	elif [ $opt == 3 ]
 	then
 		echo -e "\nEnter the username:\n"
 		read user
-		username+="$user"; username+="'"
 		echo -e "\nEnter the NTLM Hash:\n"
 		read ntlm
 		echo -e "$line"
 
 		set -x
-		GetNPUsers.py -request -format john -dc-ip $dc -hashes :$ntlm $dom/$username 
+		GetNPUsers.py -request -format john -dc-ip $dc -hashes :$ntlm $dom/"$user"
 		set +x
 
 	else
@@ -64,17 +61,15 @@ then
 	read opt
 	echo -e "\nEnter the username:\n"
 	read user
-	username+="$user"; username+="'"
 
 	if [ $opt == 1 ]
 	then
 		echo -e "\nEnter the password\n"
-                read auth
-                passwd+="$auth"; passwd+="'"
+                read passwd
 		echo -e "$line"
 
 		set -x
-		GetUserSPNs.py -request -dc-ip $dc $dom/$username:$passwd
+		GetUserSPNs.py -request -dc-ip $dc $dom/"$user":"$passwd"
 		set +x
 
 	elif [ $opt == 2 ]
@@ -84,7 +79,7 @@ then
 		echo -e "$line"
 
 		set -x
-		GetUserSPNs.py -request -dc-ip $dc -hashes :ntlm $dom/$username:$passwd
+		GetUserSPNs.py -request -dc-ip $dc -hashes :ntlm $dom/"$user":"$passwd"
 		set +x
 	else
 		echo -e "\nYou did not select a valid option\n"

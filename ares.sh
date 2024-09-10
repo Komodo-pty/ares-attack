@@ -12,18 +12,18 @@ do
 
 	elif [ $mode == 1 ]
 	then
-		source $path/ad_roasting.sh
+		source "$path"ad_roasting.sh
 
 	elif [ $mode == 2 ]
 	then
-		python3 $path/xss_cookie_thief.py
+		python3 "$path"xss_cookie_thief.py
 
 	elif [ $mode == 3 ]
 	then
-		source $path/mssql_Brute.sh
+		source "$path"mssql_Brute.sh
 
 	else
-		echo -e "\nYou did not select a valid option.\n"
+		echo -e "\nYou did not select a valid option\n"
 	fi
 
 done
