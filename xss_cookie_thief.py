@@ -3,6 +3,7 @@
 from flask import Flask, request, redirect
 from datetime import datetime
 
+print("\n[!] Tip: Users will be redirected to the URL supplied below. Don't use the URL that contains the XSS payload, or else users be stuck in a loop & keep re-triggering the payload\n\n")
 redir = input("Enter redirect URL: ")
 listen = input("Enter the port for your listener: ")
 
