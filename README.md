@@ -1,8 +1,4 @@
 # ares-attack
-Too lazy to keep typing the same commands, or to write a simple shell script to run them for you?
-
-Well then this is the tool suite for you!
-
 Ares helps Pentesters prepare for war by performing simple attacks against Web Apps and Windows targets (WAR files sold seperately).
 
 ## Functionality
