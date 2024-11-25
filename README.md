@@ -23,7 +23,7 @@ This module performs the following 3 actions:
 3) Redirects the target to a specified URL (i.e. an inconspicuous page on the website).
 
 #### ASREP Roasting & Kerberoasting
-A simple wrapper program to simplify Roasting by interactively prompting for input that'll Ares will use for impacket's GetNPUsers or GetUserSPNs.
+A wrapper program to simplify Roasting by interactively prompting for input that'll Ares will use for impacket's GetNPUsers or GetUserSPNs.
 
 #### Wordlist Mutation
 Mutates each entry in a wordlist. The output will be saved in a clear-text wordlist, & optionally will also save them in a specified format (i.e. Base64 Encoded or as a hash).
