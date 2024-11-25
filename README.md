@@ -9,9 +9,24 @@ Each of these scripts can be run independently, or they can be launched from the
 For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
 
 ### Modules
-So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, & Bruteforcing MSSQL in an AD environment (Since tools like `hydra` currently throw false negatives).
+So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, & Bruteforcing MSSQL in an AD environment (Since tools like `hydra` currently throw false negatives).
 
 In subsequent versions, each of these will be expanded upon, and more modules will be added.
+
+#### XSS
+Starts a Flask server that will recieve a target's cookies & save them to a file.
+
+It also creates an example XSS payload which will send the target's Cookies to the Flask server, & then it redirects the target to a specified URL (i.e. an inconspicuous page on the website).
+
+#### ASREP Roasting & Kerberoasting
+A simple wrapper program to simplify Roasting by interactively prompting for input that'll Ares will use for impacket's GetNPUsers or GetUserSPNs.
+
+#### Wordlist Mutation
+Mutates each entry in a wordlist. The output will be saved in a clear-text wordlist, & optionally will also save them in a specified format (i.e. Base64 Encoded or as a hash).
+
+Some Web Apps want credentials in B64 or want a password hash (e.g. MD5 or SHA256), so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g. hydra, patator, or ffuf).
+
+I'll add support for more hashing algorithms & encoding methods as the need arises.
 
 ## Setup
 After installing the dependencies, give `ares.sh` permission to execute & create a symbolic link in your PATH.
@@ -28,6 +43,8 @@ GetNPUsers.py
 GetUserSPNs.py
 
 mssqlclient.py
+
+crunch
 
 #### Note
 Ensure all aforementioned dependencies are in your PATH and are named appropriately.
