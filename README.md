@@ -26,7 +26,9 @@ This module performs the following 3 actions:
 A wrapper program to simplify Roasting by interactively prompting for input that Ares will use for impacket's GetNPUsers or GetUserSPNs.
 
 #### Wordlist Mutation
-Mutates each entry in a wordlist. The output will be saved in a clear-text wordlist, & optionally will also save them in a specified format (i.e. Base64 Encoded or as a hash).
+Mutates each entry in a wordlist, & save the output in a clear-text wordlist.
+
+Ares will also optionally also save these entries in a specified format (i.e. Base64 Encoded or as a hash).
 
 Some Web Apps want credentials in B64 or want a password hash (e.g. MD5 or SHA256), so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g. hydra, patator, or ffuf).
 
