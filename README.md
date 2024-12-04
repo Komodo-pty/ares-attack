@@ -68,7 +68,7 @@ Ensure all aforementioned dependencies are in your PATH and are named appropriat
 
 Depending on how they are installed, the name of Impacket's tools can vary (e.g. impacket-GetNPUsers vs GetNPUsers.py).
 
-You can convert the tool names between these formats by running `kali_convert.sh`
+You can convert the tool names to either format by running `kali_convert.sh`
 
 # Related Projects
 Check out the rest of the Pentesting Pantheon:
