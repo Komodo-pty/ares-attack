@@ -16,7 +16,7 @@ In subsequent versions, each of these will be expanded upon, and more modules wi
 #### XSS
 This module performs the following 3 actions:
 
-1) Starts a Flask server that will recieve a target's Cookies & save them to a file.
+1) Starts a Flask server that will recieve a target's Cookies & save them to a file. Ensure that your account has the privileges needed to listen on the specified port.
 
 2) Creates an example XSS payload which will send the target's Cookies to the Flask server.
 
