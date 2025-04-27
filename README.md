@@ -9,7 +9,7 @@ Each of these scripts can be run independently, or they can be launched from the
 For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
 
 ## Modules
-So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, & Bruteforcing MSSQL in an AD environment.
+So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, Buffer Overflow (Generate a payload file) & Bruteforcing MSSQL in an AD environment.
 
 In subsequent versions, each of these will be expanded upon, and more modules will be added.
 
@@ -22,7 +22,6 @@ This module performs the following 3 actions:
 
 3) Redirects the target to a specified URL (i.e. an inconspicuous page on the website).
 
-### Note
 Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.
 
 ### ASREP Roasting & Kerberoasting
@@ -36,6 +35,15 @@ Ares will also optionally also save these entries in a specified format (i.e. Ba
 Some Web Apps want credentials in B64 or want a password hash (e.g. MD5 or SHA256), so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g. hydra, patator, or ffuf).
 
 I'll add support for more hashing algorithms & encoding methods as the need arises.
+
+### Buffer Overflow Payload Generator
+Currently, Ares can only create payloads to trigger a BoF in 64-Bit binaries that use Little-endian Byte Order.
+
+Specify the offset & the address of the target function that you want to redirect execution to. Upload /dev/shm/payload.bin to the target machine & use a stabilized shell to pipe your payload into the target binary that accepts user input.
+
+For example,
+
+`(cat payload.bin; cat) | ./BINARY`
 
 ### Bruteforce MSSQL in AD Environment
 Outside of an AD environment, tools like `hydra` work well for Bruteforcing MSSQL Servers.
