@@ -1,9 +1,7 @@
 # ares-attack
-Ares helps Pentesters prepare for war by performing simple attacks against Web Apps and Windows targets (WAR files sold seperately).
+Ares is a collection of scripts which helps Pentesters prepare for war by performing simple attacks against various targets (WAR files sold seperately).
 
 # Functionality
-Ares is a collection of scripts which perform different kinds of attacks for Penetration Testing.
-
 Each of these scripts can be run independently, or they can be launched from the main `ares.sh` script.
 
 For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
