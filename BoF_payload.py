@@ -14,5 +14,10 @@ payload = padding + little_endian
 
 print("\nCreating a payload for a 64-Bit binary & saving it to /dev/shm/payload.bin\n")
 
-with open('/dev/shm/payload.bin', 'wb') as f:
-    f.write(payload)
+try:
+    with open('/dev/shm/payload.bin', 'wb') as f:
+        f.write(payload)
+
+except Exception as e:
+    print(f"Error occurred: {e}")
+
