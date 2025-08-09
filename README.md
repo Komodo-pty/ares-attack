@@ -22,6 +22,13 @@ This module performs the following 3 actions:
 
 Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.
 
+### Uploader
+Bypass file upload defenses to get a backdoor on a Web App.
+
+In Exploit mode, Uploader will upload the backdoor & then automatically leverage it to trigger a web shell.
+
+Currently, Uploader only supports PHP web shells, but more file types will be introduced in subsequent updates.
+
 ### ASREP Roasting & Kerberoasting
 A wrapper program to simplify Roasting by interactively prompting for input that Ares will use for impacket's GetNPUsers or GetUserSPNs.
 
