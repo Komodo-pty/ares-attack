@@ -15,7 +15,7 @@ Ares will interactively prompt you for input unless you provide the necessary ar
 	-m <MODULE>: Specify the module you want to use
 
 [Modules]
-	upload: Bypass file upload defenses to get a backdoor on a Web App
+	upload: Bypass file upload defenses to get a backdoor on a Web App. Currently, Uploader only supports PHP file types
 	roast: ASREP Roasting & Kerberoasting
 	xss: Setup for XSS cookie exfil
 	mutate: Wordlist mutation

