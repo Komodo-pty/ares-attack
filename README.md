@@ -27,7 +27,17 @@ Bypass file upload defenses to get a backdoor on a Web App.
 
 In Exploit mode, Uploader will upload the backdoor & then automatically leverage it to trigger a web shell.
 
-Currently, Uploader only supports PHP web shells, but more file types will be introduced in subsequent updates.
+Currently, Uploader is only designed for PHP based Web Applications that have file upload functionality using a POST request to send Boundary (multipart) Data.
+
+The Reverse Shell payload works against Linux machines.
+
+#### In Development
+The following will be added in subsequent updates:
+
+1) Support for more languages
+2) Support for more types of file uploads
+3) More types of upload bypasses
+4) Payloads for Windows
 
 ### ASREP Roasting & Kerberoasting
 A wrapper program to simplify Roasting by interactively prompting for input that Ares will use for impacket's GetNPUsers or GetUserSPNs.
