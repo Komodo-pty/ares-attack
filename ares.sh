@@ -3,7 +3,7 @@
 path=$(readlink $(which ares) | awk -F 'ares.sh' '{print $1}')
 line="\n============================================================\n"
 mode=""
-helper_args=()
+module_args=()
 
 detected_module=false
 detected_help=false
