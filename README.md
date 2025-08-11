@@ -1,13 +1,17 @@
 # ares-attack
-Ares is a collection of scripts which helps Pentesters prepare for war by performing simple attacks against various targets (WAR files sold seperately).
+Ares helps Pentesters prepare for war by performing simple attacks against Web Apps and Windows targets (WAR files sold seperately).
 
 # Functionality
+Ares is a collection of scripts which perform different kinds of attacks for Penetration Testing.
+
 Each of these scripts can be run independently, or they can be launched from the main `ares.sh` script.
 
 For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
 
+Run `ares -h` for the main help menu, or specify a module to get its help menu (e.g. `ares -m upload -h`)
+
 ## Modules
-So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, Buffer Overflow (Generate a payload file) & Bruteforcing MSSQL in an AD environment.
+So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, & Bruteforcing MSSQL in an AD environment.
 
 In subsequent versions, each of these will be expanded upon, and more modules will be added.
 
@@ -20,24 +24,8 @@ This module performs the following 3 actions:
 
 3) Redirects the target to a specified URL (i.e. an inconspicuous page on the website).
 
+### Note
 Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.
-
-### Uploader
-Bypass file upload defenses to get a backdoor on a Web App.
-
-In Exploit mode, Uploader will upload the backdoor & then automatically leverage it to trigger a web shell.
-
-Currently, Uploader is only designed for PHP based Web Applications that have file upload functionality using a POST request to send Boundary (multipart) Data.
-
-The Reverse Shell payload works against Linux machines.
-
-#### In Development
-The following will be added in subsequent updates:
-
-1) Support for more languages
-2) Support for more types of file uploads
-3) More types of upload bypasses
-4) Payloads for Windows
 
 ### ASREP Roasting & Kerberoasting
 A wrapper program to simplify Roasting by interactively prompting for input that Ares will use for impacket's GetNPUsers or GetUserSPNs.
@@ -50,15 +38,6 @@ Ares will also optionally also save these entries in a specified format (i.e. Ba
 Some Web Apps want credentials in B64 or want a password hash (e.g. MD5 or SHA256), so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g. hydra, patator, or ffuf).
 
 I'll add support for more hashing algorithms & encoding methods as the need arises.
-
-### Buffer Overflow Payload Generator
-Currently, Ares can only create payloads to trigger a BoF in 64-Bit binaries that use Little-endian Byte Order.
-
-Specify the offset & the address of the target function that you want to redirect execution to. Upload /dev/shm/payload.bin to the target machine & use a stabilized shell to pipe your payload into the target binary that accepts user input.
-
-For example,
-
-`(cat payload.bin; cat) | ./BINARY`
 
 ### Bruteforce MSSQL in AD Environment
 Outside of an AD environment, tools like `hydra` work well for Bruteforcing MSSQL Servers.
@@ -94,7 +73,7 @@ Ensure all aforementioned dependencies are in your PATH and are named appropriat
 
 Depending on how they are installed, the name of Impacket's tools can vary (e.g. impacket-GetNPUsers vs GetNPUsers.py).
 
-You can create the symlinks for the Impacket tools in either format by running `kali_convert.sh`
+You can convert the tool names to either format by running `kali_convert.sh`
 
 # Related Projects
 Check out the rest of the Pentesting Pantheon:

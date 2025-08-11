@@ -27,14 +27,12 @@ Uploader will run in interactive mode if you don't supply a value for required p
 Currently, Uploader only supports PHP files. More file types will be added in subsequent updates.
 
 EOF
-
+exit 0
 }
 
 if [ $# -eq 0 ]
 then
   cat <<EOF
-
-[+] Uploader only supports arguments when used as a standalone script. Support for arguments when launched from Ares will be added in the future.
 
 No arguments provided. Defaulting to interactive mode.
 

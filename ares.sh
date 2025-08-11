@@ -2,7 +2,11 @@
 
 path=$(readlink $(which ares) | awk -F 'ares.sh' '{print $1}')
 line="\n============================================================\n"
-target=""
+mode=""
+helper_args=()
+
+detected_module=false
+detected_help=false
 
 Help()
 {
@@ -23,35 +27,51 @@ Ares will interactively prompt you for input unless you provide the necessary ar
 	mssql: Bruteforce MSSQL in Active Directory environment
 
 EOF
+exit 0
 }
 
-if [ $# -eq 0 ]
-then
-  echo -e "$line\nNo arguments provided. Defaulting to interactive mode.\n\n[!] Tip: Use the -h argument to view the help menu\n"
-else
-  while getopts ":hm:" option
-  do
-    case $option in
-      h)
-        Help
-        exit
-	;;
+for arg in "$@"
+do
+  [[ "$arg" == "-m" ]] && detected_module=true
+  [[ "$arg" == "-h" ]] && detected_help=true
+done
 
-      m)
-        mode=$OPTARG
-	;;
-		
-      \?)
-         echo -e "\nError: Invalid argument"
-         exit
-	 ;;
-    esac
-  done
+# If -h was used but -m wasn't, show Ares help menu
+if $detected_help && ! $detected_module
+then
+  Help
 fi
+
+while [[ $# -gt 0 ]]
+do
+  case "$1" in
+    -m)
+      mode="$2"
+      shift 2
+      ;;
+
+    -*)
+      #Handle module args, using shift to process args regardless of order
+      
+      module_args+=("$1")
+      if [[ -n "$2" && "$2" != -* ]]; then
+        module_args+=("$2")
+	shift
+      fi
+      shift
+      ;;
+
+    *)
+      shift
+      ;;
+  esac
+done
 
 if [[ -z "$mode" ]]
 then
   cat <<EOF
+Select a Module
+
 [Modules]
 	[1] File Uploader
 	[2] Active Directory Roasting
@@ -68,7 +88,7 @@ case "$mode" in
 
   upload|1)
     echo -e "$line\n[File Uploader]"
-    bash "$path"uploader.sh
+    bash "$path"uploader.sh "${module_args[@]}"
     ;;
 
   roast|2)
@@ -98,5 +118,6 @@ case "$mode" in
 
   *)
     echo -e "\nYou did not select a valid option\n"
+    Help
     ;;
 esac
