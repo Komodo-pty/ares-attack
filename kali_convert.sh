@@ -1,19 +1,46 @@
 #!/bin/bash
 
-echo -e "What format do you want the impacket dependencies?\n"
-echo -e "[1] Kali (e.g. impacket-lookupsid)\n[2] Standalone installation (e.g. lookupsid.py)\n"
+cat <<EOF
+
+What format do you want the impacket dependencies?
+
+[1] Create Symlinks for Kali (e.g. impacket-lookupsid)
+
+[2] Create Symlinks for standalone installation (e.g. lookupsid.py)
+
+EOF
+
 read choice
 
-if [ $choice == 1 ]
+depends=( "mssqlclient" "GetUserSPNs" "GetNPUsers" )
+
+if (( choice == 1 ))
 then
-	sed -i 's/mssqlclient.py/impacket-mssqlclient/g' mssql_Brute.sh
-	sed -i 's/GetUserSPNs.py/impacket-GetUserSPNs/g' ad_roasting.sh
-	sed -i 's/GetNPUsers.py/impacket-GetNPUsers/g' ad_roasting.sh
-elif [ $choice == 2 ]
+  for i in "${depends[@]}"; do 
+    src=$(which impacket-$i 2>/dev/null)
+    dest="$HOME/.local/bin/$i.py"
+
+    if [[ -x "$src" ]]; then
+      ln -s "$src" "$dest"
+      echo "Linked $src -> $dest"
+    else
+      echo "impacket-$i not found in PATH"
+    fi
+  done
+
+elif (( choice == 2 ))
 then
-	sed -i 's/impacket-mssqlclient/mssqlclient.py/g' mssql_Brute.sh
-	sed -i 's/impacket-GetUserSPNs/GetUserSPNs.py/g' ad_roasting.sh
-	sed -i 's/impacket-GetNPUsers/GetNPUsers.py/g' ad_roasting.sh
+  for i in "${depends[@]}"; do
+    src=$(which $i.py 2>/dev/null)
+    dest="$HOME/.local/bin/impacket-$i"
+    if [[ -x "$src" ]]; then
+      ln -s "$src" "$dest"
+      echo "Linked $src -> $dest"
+    else
+      echo "$i.py not found in PATH"
+    fi
+  done
+
 else
-        echo "Invalid selection. When prompted, enter either 1 or 2"
+  echo "Invalid selection. When prompted, enter a either 1 or 2"
 fi
