@@ -51,20 +51,16 @@ Ares uses a simple wrapper program to add bruteforcing capabilities to mssqlclie
 I'll try to improve the speed of this program if conventional BF tools don't address this issue, but as it is, Ares is still a reliable solution.
 
 # Setup
-After installing the dependencies, give `ares.sh` permission to execute & create a symbolic link in your PATH.
+After installing the dependencies, navigate to this Repo's directory & run `setup.sh`. 
 
-For example, run the following in this Repo's directory:
-
-`chmod +x ares.sh`
-
-`ln -s $(pwd)/ares.sh /home/user/.local/bin/ares`
+`bash ./setup.sh`
 
 ## Dependencies
-GetNPUsers.py
+impacket-GetNPUsers
 
-GetUserSPNs.py
+impacket-GetUserSPNs
 
-mssqlclient.py
+impacket-mssqlclient
 
 crunch
 
@@ -73,7 +69,7 @@ Ensure all aforementioned dependencies are in your PATH and are named appropriat
 
 Depending on how they are installed, the name of Impacket's tools can vary (e.g. impacket-GetNPUsers vs GetNPUsers.py).
 
-You can convert the tool names to either format by running `kali_convert.sh`
+You can convert the tool names to the proper format by running `setup.sh`
 
 # Related Projects
 Check out the rest of the Pentesting Pantheon:
