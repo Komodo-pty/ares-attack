@@ -1,7 +1,7 @@
 #!/bin/bash
 
 path=$(readlink $(which ares) | awk -F 'ares.sh' '{print $1}')
-line="\n============================================================\n"
+line="============================================================"
 mode=""
 module_args=()
 
@@ -85,15 +85,14 @@ EOF
 fi
 
 case "$mode" in
-
   upload|1)
     echo -e "$line\n[File Uploader]"
     bash "$path"uploader.sh "${module_args[@]}"
     ;;
 
   roast|2)
-    echo -e "$line\n[Active Directory Roasting]"
-    bash "$path"ad_roasting.sh
+    echo -e "$line\n[Roasting]"
+    bash "$path"roaster.sh "${module_args[@]}"
     ;;
 
   xss|3)

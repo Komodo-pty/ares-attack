@@ -3,11 +3,11 @@
 # TO DO: Consider implementing multiprocessing. On success, auto terminate & print creds?
 
 line="\n============================================================\n"
+port=1433
 domain=""
 auth=""
 mode=""
 target=""
-port=1433
 username=""
 user_list=""
 password=""
@@ -56,8 +56,7 @@ EOF
 
 Authentication()
 {
-  login="$domain"
-  login+="username:password"
+  login="${domain}username:password"
   OUT=$(impacket-mssqlclient -port "$port" "${login}@${target}" 2>&1 | tr -d '\r')
 
   if echo "$OUT" | grep -qi "Login failed for user"; then
