@@ -48,7 +48,9 @@ Ares will interactively prompt you for input unless you provide the necessary ar
 ```
 
 ### Uploader
-Bypass common File Upload defenses.
+Ares attempts to bypass common File Upload defenses.
+
+Ares uploads a backdoor file, & can automatically trigger it to catch a reverse shell.
 
 ```
 [Options]
@@ -92,11 +94,43 @@ Some Web Apps want credentials supplied in B64 or as a password hash, so this pr
 Generate a binary payload using the specified address & offset.
 
 ### MSSQL Pwner
-Unlike `hydra`, `impacket-mssqlclient` supports the use of SSPI authentication for MSSQL servers.
+Some bruteforcing tools like `hydra` don't currently support the use of SSPI authentication for MSSQL servers.
 
-This makes it more reliable in an Active Directory environment, but it doesn't come with any bruteforcing functionality.
+This makes these tools unreliable in an Active Directory environment.
 
-Ares uses a simple wrapper program to add bruteforcing capabilities to `impacket-mssqlclient`.
+Ares attempts to identify the authentication mechanism in use, & then uses that mechanism to perform the specified password attack.
+
+```
+[Options]
+	-h: Display this help message
+	-i <IP_ADDRESS>: The target server's IP Address or hostname
+	-s <PORT>: The MSSQL server's port (1433 by default)
+	-d <DOMAIN>: Specify the domain name or hostname (e.g., xample.local/)
+	-x <MODE>: Specify the operation to perform
+	-a: Detect the supported authentication method & use that method to connect
+
+	-u <USERNAME>: The user to authenticate as
+	-U <USER_LIST>: File path for a list of usernames
+
+	-p <PASSWORD>: The password to use for authentication
+	-P <PASS_LIST>: File path for a list of passwords
+
+	-n <NTLM>: Use specified NTLM hash instead of a password
+	-N <NTLM_LIST>: File path for a list of NTLM hashes (either LM:NTLM or :NTLM)
+
+	-c <CRED_LIST>: File path for a wordlist containing colon seperated credentials (e.g., USER:PASS)
+
+[Modes]
+	spray: Spray a password or an NTLM hash against a list of usernames
+	user: Test a list of passwords or NTLM hashes against a single user
+	creds: Test pairs of credentials (e.g., USER:PASS)
+	brute: Bruteforce usernames using a list of passwords or NTLM hashes
+
+[Usage]
+
+ares -m mssql -x spray -a -i 123.45.67.890 -s 8000 -d xample.local/ -U /tmp/users.txt -p 'password123!'
+ares -m mssql -x brute -a -i 123.45.67.890 -U /tmp/user.txt -N /tmp/hashes.txt
+```
 
 ## Related Projects
 Check out the rest of the Pentesting Pantheon:

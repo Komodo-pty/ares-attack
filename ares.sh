@@ -113,7 +113,7 @@ case "$mode" in
 
   mssql|6)
     echo -e "$line\n[Brute Force MSSQL]"
-    bash "$path"mssql_Brute.sh
+    bash "$path"mssql_pwner.sh "${module_args[@]}"
     ;;
 
   *)

@@ -44,7 +44,6 @@ else
         	case $option in
 			h)
                         	Help
-                                exit
 				;;
 			i)
 				ip=$OPTARG
