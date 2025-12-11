@@ -233,7 +233,7 @@ EOF
       else
         impacket-mssqlclient -windows-auth -no-pass -port "$port" -hashes "$ntlm" "${login}@${target}"
       fi
-    done <"$user_list"
+    done < "$user_list"
     fi
     ;;
 

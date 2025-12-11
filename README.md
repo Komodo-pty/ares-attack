@@ -113,6 +113,41 @@ Modify wordlist entries & optionally convert them to an alternate format (i.e., 
 
 Some Web Apps want credentials supplied in B64 or as a password hash, so this prepares a wordlist that can be used with your favorite bruteforcing tool (e.g., `hydra`, `patator`, or `ffuf`).
 
+```
+[Options]
+	-h: Display this help menu
+	-w <WORDLIST>: File path for the wordlist to mutate
+	-x <MODE>: The operation to perform
+
+	-c <FORMAT>: The format to convert wordlist entries into
+	-m <MUTATIONS>: The mutations to apply to each wordlist entry
+
+	-o <OUTPUT_FILE>: Save mutated wordlist to specified path (default ./mutated_list.txt)
+
+[Modes]
+	mutate: Mutate each wordlist entry
+	convert: Encode / hash each wordlist entry into specified format
+	all: Mutate & convert each wordlist entry
+
+[Formats]
+	md5
+	sha256
+	b64: Base64 Encoding
+
+[Mutations]
+	@: Lowercase letter
+	,: Uppercase letter
+	%: Number
+	^: Symbol
+
+[!] Tip: Mutator uses standard Crunch syntax. For example, to append: a lowercase letter, an uppercase letter, 2 numbers, & a symbol, use @,%%^
+
+[Usage]
+	ares -m mutate -w /tmp/passwords.txt -c md5 -m @,%%^
+	ares -m mutate -w /tmp/passwords.txt -m %%% -o output.txt
+	ares -m mutate -w /tmp/passwords.txt -c sha256
+```
+
 ### Overflower
 Generate a binary payload using the specified address & offset.
 

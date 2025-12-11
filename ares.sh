@@ -102,7 +102,7 @@ case "$mode" in
 
   mutate|4)
     echo -e "$line\n[Mutator]" 
-    bash "$path"password_generator.sh
+    bash "$path"mutator.sh "${module_args[@]}"
     ;;
 
   bof|5)
