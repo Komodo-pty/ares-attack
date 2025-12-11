@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# 2 Outfiles? 1 for mutations + another for formatting? or just use same file for both?
-
 line="============================================================"
 outfile="mutated_list.txt"
 wordlist=""
@@ -19,7 +17,7 @@ $line
 	-x <MODE>: The operation to perform
 
 	-c <FORMAT>: The format to convert wordlist entries into
-	-m <MUTATIONS>: The mutations to apply to each wordlist entry
+	-e <MUTATIONS>: The mutations to apply to each wordlist entry
 
 	-o <OUTPUT_FILE>: Save mutated wordlist to specified path (default ./mutated_list.txt)
 
@@ -70,26 +68,26 @@ EOF
     read mutation
   fi
 
-  mod_size=$(echo -n "$mutation" | wc -m)
+  mod_size=${#mutation}
+
+  while IFS= read -r word; do
+    base_size=${#word}
+    length=$((base_size + mod_size))
+    crunch "$length" "$length" -t "${word}${mutation}" | grep -v Crunch >> "$outfile"
+  done < "$wordlist"
 
   if [[ ! -s "$outfile" ]]; then
     echo -e "\nError: $outfile is empty or was not created"
     exit 1
-  fi
-
-  while IFS= read -r word; do
-    base_size=$(echo -n "$word" | wc -m)
-    length=$(( "$base_size" + "$mod_size" ))
-    crunch "$length" "$length" -t "${word}${mutation}" | grep -v Crunch >> "$outfile"
-  done < "$wordlist"
-
-  cat <<EOF
+  else
+    cat <<EOF
 $line
 [!] Mutations complete
 
 [+] Output file: $outfile
 
 EOF
+  fi
 }
 
 Convert()
@@ -159,7 +157,7 @@ EOF
       ;;
 
     all)
-      converted_list="${conversion}_${outfile}"
+      converted_list="${conversion}_wordlist.txt"
       > "$converted_list"
 
       while IFS= read -r word; do
@@ -186,7 +184,7 @@ EOF
   esac
 }
 
-while getopts ":hw:x:o:c:m:" option; do
+while getopts ":hw:x:o:c:e:" option; do
   case "$option" in
     h)
       Help
@@ -203,7 +201,7 @@ while getopts ":hw:x:o:c:m:" option; do
     c)
       conversion="$OPTARG"
       ;;
-    m)
+    e)
       mutation="$OPTARG"
       ;;
   \?)
